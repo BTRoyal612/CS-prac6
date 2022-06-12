@@ -70,7 +70,7 @@ string VMTranslator::vm_eq(){
     trans += "A=M-1\n";
     trans += "M=0\n";
     trans += "(eqTrue)" + label + "\n";
-    return "";
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM gt operation assessed in Practical Assignment 6 */
