@@ -10,7 +10,7 @@ string VMTranslator::vm_push(string segment, int offset){
 
     switch (segment) {
         case "constant":
-            trans += "@" + index + "\n"; // load index into A
+            trans += "@" + to_string(offset) + "\n"; // load index into A
             trans += "D=A\n"; // move it to D
             trans += "@SP\n"; // load 0 into A (M[0] contains stack pointer)
             trans += "A=M\n"; // load stack pointer
@@ -29,7 +29,7 @@ string VMTranslator::vm_push(string segment, int offset){
             trans += "M=M+1\n";
             break;
         case "this": 
-            trans += "@" + offset + "\n"; // get value into D
+            trans += "@" + to_string(offset) + "\n"; // get value into D
             trans += "D=A\n";
             trans += "@THIS\n";
             trans += "A=M+D\n";
