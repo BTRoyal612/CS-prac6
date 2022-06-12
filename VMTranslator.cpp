@@ -75,12 +75,46 @@ string VMTranslator::vm_eq(){
 
 /** Generate Hack Assembly code for a VM gt operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_gt(){
-    return "";
+    string trans = "";
+    static int count = 0;
+    string label = to_string(count);
+    count++;
+    trans += "@SP\n"; // pop first value into D
+    trans += "AM=M-1\n";
+    trans += "D=M\n";
+    trans += "@SP\n"; // get second value into M
+    trans += "A=M-1\n";
+    trans += "D=M-D\n"; // D = older value - newer
+    trans += "M=-1\n"; // tentatively put true on stack
+    trans += "@gtTrue" + label + "\n"; // and jump to end if so
+    trans += "D;JGT\n";
+    trans += "@SP\n"; // set to false otherwise
+    trans += "A=M-1\n";
+    trans += "M=0\n";
+    trans += "(gtTrue" + label + ")\n";
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM lt operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_lt(){
-    return "";
+    string trans = "";
+    static int count = 0;
+    string label = to_string(count);
+    count++;
+    trans += "@SP\n"; // pop first value into D
+    trans += "AM=M-1\n";
+    trans += "D=M\n"; 
+    trans += "@SP\n"; // get second value into M
+    trans += "A=M-1\n";
+    trans += "D=M-D\n"; // D = older value - newer
+    trans += "M=-1\n"; // tentatively put true on stack
+    trans += "@ltTrue" + label + "\n"; // and jump to end if so
+    trans += "D;JLT\n";
+    trans += "@SP\n"; // set to false otherwise
+    trans += "A=M-1\n";
+    trans += "M=0\n"; 
+    trans += "(ltTrue" + label + ")\n";
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM and operation assessed in Practical Assignment 6 */
@@ -92,7 +126,7 @@ string VMTranslator::vm_and(){
     trans += "@SP\n"; // get second value into M
     trans += "A=M-1\n";
     trans += "M=D&M\n"; // put result back on stack
-    return "";
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM or operation assessed in Practical Assignment 6 */
