@@ -6,7 +6,42 @@ using namespace std;
 
 /** Generate Hack Assembly code for a VM push operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_push(string segment, int offset){
-    return "";
+    string trans = "";
+
+    switch (segment) {
+        case "constant":
+            trans += "@" + index + "\n"; // load index into A
+            trans += "D=A\n"; // move it to D
+            trans += "@SP\n"; // load 0 into A (M[0] contains stack pointer)
+            trans += "A=M\n"; // load stack pointer
+            trans += "M=D\n"; // put D onto stack
+            trans += "@SP\n"; // load stack pointer address into A
+            trans += "M=M+1\n"; // increment stack pointer
+            break;
+        case "static":
+            offset += 16;
+            trans += "@" + to_string(offset) + "\n";
+            trans += "D=M\n";
+            trans += "@SP\n";
+            trans += "A=M\n"; 
+            trans += "M=D\n";
+            trans += "@SP\n";
+            trans += "M=M+1\n";
+            break;
+        case "this": 
+            trans += "@" + offset + "\n"; // get value into D
+            trans += "D=A\n";
+            trans += "@THIS\n";
+            trans += "A=M+D\n";
+            trans += "D=M\n";
+            trans += "@SP\n"; // put it onto the stack
+            trans += "A=M\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // increment the stack pointer
+            trans += "M=M+1\n";
+            break;
+    }
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM pop operation assessed in Practical Assignment 6 */
