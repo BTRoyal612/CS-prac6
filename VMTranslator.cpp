@@ -54,8 +54,9 @@ string VMTranslator::vm_neg(){
 /** Generate Hack Assembly code for a VM eq operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_eq(){
     string trans = "";
-    // string label = to_string(nextLabel);
-    // nextLabel += 1;
+    static int count = 0;
+    string label = to_string(count);
+    count++;
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n";
