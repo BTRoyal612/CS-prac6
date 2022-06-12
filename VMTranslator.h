@@ -8,8 +8,6 @@ using namespace std;
 class VMTranslator {
 
     public:
-        static int nextLabel;
-
         /** Practical Assignment 6 methods */
         static string vm_push(string segment, int offset);
         static string vm_pop(string segment, int offset);
