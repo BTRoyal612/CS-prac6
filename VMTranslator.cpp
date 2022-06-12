@@ -64,12 +64,12 @@ string VMTranslator::vm_eq(){
     trans += "A=M-1\n";
     trans += "D=M-D\n"; // D = older value - newer
     trans += "M=-1\n"; // tentatively put true on stack
-    trans += "@eqTrue\n"; // and jump to end if so
+    trans += "@eqTrue" + label + "\n"; // and jump to end if so
     trans += "D;JEQ\n";
     trans += "@SP\n"; // set to false otherwise
     trans += "A=M-1\n";
     trans += "M=0\n";
-    trans += "(eqTrue)\n";
+    trans += "(eqTrue)" + label + "\n";
     return "";
 }
 
