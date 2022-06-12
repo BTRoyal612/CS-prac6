@@ -36,7 +36,7 @@ string VMTranslator::vm_sub(){
     trans += "D=M\n"; 
     trans += "@SP\n"; // pop second value into M
     trans += "AM=M-1\n"; 
-    trans += "M=D+M\n"; // push sum onto M
+    trans += "M=M-D\n"; // push difference onto M
     trans += "@SP\n";
     trans += "M=M+1\n"; 
     return trans;
@@ -44,7 +44,11 @@ string VMTranslator::vm_sub(){
 
 /** Generate Hack Assembly code for a VM neg operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_neg(){
-    return "";
+    string trans = "";
+    trans += "@SP\n"; // get (not pop) value into M
+    trans += "A=M-1\n"; 
+    trans += "M=-M\n"; // and negate it 
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM eq operation assessed in Practical Assignment 6 */
@@ -64,17 +68,35 @@ string VMTranslator::vm_lt(){
 
 /** Generate Hack Assembly code for a VM and operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_and(){
+    string trans = "";
+    trans += "@SP\n"; // pop first value into D
+    trans += "AM=M-1\n";
+    trans += "D=M\n";
+    trans += "@SP\n"; // get second value into M
+    trans += "A=M-1\n";
+    trans += "M=D&M\n"; // put result back on stack
     return "";
 }
 
 /** Generate Hack Assembly code for a VM or operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_or(){
-    return "";
+    string trans = "";
+    trans += "@SP\n"; // pop first value into D
+    trans += "AM=M-1\n";
+    trans += "D=M\n"; 
+    trans += "@SP\n"; // get second value into M
+    trans += "A=M-1\n";
+    trans += "M=D|M\n"; // put result back on stack
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM not operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_not(){
-    return "";
+    string trans = "";
+    trans += "@SP\n"; // get (not pop) value into M
+    trans += "A=M-1\n"; 
+    trans += "M=!M\n"; // and negate it 
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM label operation assessed in Practical Assignment 7 */

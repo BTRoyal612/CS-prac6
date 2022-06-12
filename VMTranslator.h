@@ -8,7 +8,6 @@ using namespace std;
 class VMTranslator {
 
     public:
-
         /** Practical Assignment 6 methods */
         static string vm_push(string segment, int offset);
         static string vm_pop(string segment, int offset);
@@ -29,6 +28,9 @@ class VMTranslator {
         static string vm_function(string function_name, int n_vars);
         static string vm_call(string function_name, int n_args);
         static string vm_return();
+    private: 
+        int nextLabel = 0;
+
         
 };
 
