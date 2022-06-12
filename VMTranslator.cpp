@@ -16,12 +16,30 @@ string VMTranslator::vm_pop(string segment, int offset){
 
 /** Generate Hack Assembly code for a VM add operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_add(){
-    return "";
+    string trans = "";
+    trans += "@SP\n" // pop first value into D
+    trans += "AM=M-1\n"
+    trans += "D=M\n" 
+    trans += "@SP\n" // pop second value into M
+    trans += "AM=M-1\n" 
+    trans += "M=D+M\n" // push sum onto M
+    trans += "@SP\n"
+    trans += "M=M+1\n" 
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM sub operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_sub(){
-    return "";
+    string trans = "";
+    trans += "@SP\n" // pop first value into D
+    trans += "AM=M-1\n"
+    trans += "D=M\n" 
+    trans += "@SP\n" // pop second value into M
+    trans += "AM=M-1\n" 
+    trans += "M=D+M\n" // push sum onto M
+    trans += "@SP\n"
+    trans += "M=M+1\n" 
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM neg operation assessed in Practical Assignment 6 */
