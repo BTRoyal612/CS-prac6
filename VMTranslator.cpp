@@ -4,6 +4,8 @@
 
 using namespace std;
 
+int VMTranslator::nextLabel = 0;
+
 /** Generate Hack Assembly code for a VM push operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_push(string segment, int offset){
     return "";
@@ -53,6 +55,22 @@ string VMTranslator::vm_neg(){
 
 /** Generate Hack Assembly code for a VM eq operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_eq(){
+    string trans = "";
+    string label = to_string(nextLabel);
+    nextLabel += 1;
+    trans += "@SP\n"; // pop first value into D
+    trans += "AM=M-1\n";
+    trans += "D=M\n";
+    trans += "@SP\n"; // get second value into M
+    trans += "A=M-1\n";
+    trans += "D=M-D\n"; // D = older value - newer
+    trans += "M=-1\n"; // tentatively put true on stack
+    trans += "@eqTrue" + label + "\n"; // and jump to end if so
+    trans += "D;JEQ\n";
+    trans += "@SP\n"; // set to false otherwise
+    trans += "A=M-1\n";
+    trans += "M=0\n";
+    trans += "(eqTrue" + label + ")\n";
     return "";
 }
 

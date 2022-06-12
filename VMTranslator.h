@@ -29,7 +29,7 @@ class VMTranslator {
         static string vm_call(string function_name, int n_args);
         static string vm_return();
     private: 
-        int nextLabel = 0;
+        static int nextLabel;
 
         
 };
