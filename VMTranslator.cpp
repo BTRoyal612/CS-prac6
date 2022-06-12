@@ -69,7 +69,7 @@ string VMTranslator::vm_eq(){
     trans += "@SP\n"; // set to false otherwise
     trans += "A=M-1\n";
     trans += "M=0\n";
-    trans += "(eqTrue)" + label + "\n";
+    trans += "(eqTrue" + label + ")\n";
     return trans;
 }
 
