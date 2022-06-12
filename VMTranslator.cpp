@@ -25,11 +25,30 @@ string VMTranslator::vm_push(string segment, int offset){
         trans += "M=D\n";
         trans += "@SP\n";
         trans += "M=M+1\n";
-    } else if (segment == "this") {
+    } else {
         trans += "@" + to_string(offset) + "\n"; // get value into D
         trans += "D=A\n";
-        trans += "@THIS\n";
-        trans += "A=M+D\n";
+        
+        if (segment == "this") {
+            trans += "@THIS\n";
+            trans += "A=M+D\n";
+        } else if (segment == "that") {
+            trans += "@THAT\n";
+            trans += "A=M+D\n";
+        } else if (segment == "argument") {
+            trans += "@ARG\n";
+            trans += "A=M+D\n";
+        } else if (segment == "local") {
+            trans += "@LCL\n";
+            trans += "A=M+D\n";
+        } else if (segment == "temp") {
+            trans += "@5\n";
+            trans += "A=A+D\n";
+        } else if (segment == "pointer") {
+            trans += "@3\n";
+            trans += "A=A+D\n";
+        }
+
         trans += "D=M\n";
         trans += "@SP\n"; // put it onto the stack
         trans += "A=M\n";
@@ -37,6 +56,7 @@ string VMTranslator::vm_push(string segment, int offset){
         trans += "@SP\n"; // increment the stack pointer
         trans += "M=M+1\n";
     }
+    
     return trans;
 }
 
