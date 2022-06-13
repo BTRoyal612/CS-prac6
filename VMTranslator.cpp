@@ -72,6 +72,7 @@ string VMTranslator::vm_pop(string segment, int offset){
     } else {
         trans += "@" + to_string(offset) + "\n"; // get address into R13
         trans += "D=A\n";
+
         if (segment == "this") {
             trans += "@THIS\n";
             trans += "D=M+D\n"; 
@@ -91,6 +92,7 @@ string VMTranslator::vm_pop(string segment, int offset){
             trans += "@5\n";
             trans += "D=A+D\n";
         }
+        
         trans += "@R13\n";
         trans += "M=D\n;";
         trans += "@SP\n"; // pop value into D
