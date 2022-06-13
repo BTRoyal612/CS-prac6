@@ -1,0 +1,3 @@
+// push constant number
+push constant 0
+push constant 32767
