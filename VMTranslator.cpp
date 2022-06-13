@@ -7,7 +7,7 @@ using namespace std;
 /** Generate Hack Assembly code for a VM push operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_push(string segment, int offset){
     string trans = "";
-
+    trans += "// push " + segment + str(offset) + "\n";
     if (segment == "constant") {
         trans += "@" + to_string(offset) + "\n"; // load index into A
         trans += "D=A\n"; // move it to D
@@ -61,13 +61,54 @@ string VMTranslator::vm_push(string segment, int offset){
 }
 
 /** Generate Hack Assembly code for a VM pop operation assessed in Practical Assignment 6 */
-string VMTranslator::vm_pop(string segment, int offset){    
-    return "";
+string VMTranslator::vm_pop(string segment, int offset){  
+    string trans = "";
+    trans += "// pop " + segment + str(offset) + "\n";
+    if (segment == "static") {
+        trans += "@SP\n"; // pop value into D
+        trans += "AM=M-1\n";
+        trans += "D=M\n";
+        trans += "@" + str(16 + offset) + "\n"
+        trans += "M=D\n";
+    } else {
+        trans += "@" + str(offset) + "\n"; // get address into R13
+        trans += "D=A\n";
+        if (segment == "this") {
+            trans += "@THIS\n";
+            trans += "D=M+D\n"; 
+        } else if (segment == "that") {
+            trans += "@THAT\n";
+            trans += "D=M+D\n"; 
+        } else if (segment == "argument") {
+            trans += "@ARG\n";
+            trans += "D=M+D\n"; 
+        } else if (segment == "local") {
+            trans += "@LCL\n";
+            trans += "D=M+D\n"; 
+        } else if (segment == "pointer") {
+            trans += "@3\n";
+            trans += "D=A+D\n";
+        } else if (segment == "temp") {
+            trans += "@5\n";
+            trans += "D=A+D\n";
+        }
+        trans += "@R13\n";
+        trans += "M=D\n;"
+        trans += "@SP\n"; // pop value into D
+        trans += "AM=M-1\n";
+        trans += "D=M\n";
+        trans += "@R13\n"; // address back in A (no touchy D)
+        trans += "A=M\n";
+        trans += "M=D\n";
+    }
+    
+    return trans;
 }
 
 /** Generate Hack Assembly code for a VM add operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_add(){
     string trans = "";
+    trans += "// add \n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n";
@@ -82,6 +123,7 @@ string VMTranslator::vm_add(){
 /** Generate Hack Assembly code for a VM sub operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_sub(){
     string trans = "";
+    trans += "// sub \n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n"; 
@@ -96,6 +138,7 @@ string VMTranslator::vm_sub(){
 /** Generate Hack Assembly code for a VM neg operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_neg(){
     string trans = "";
+    trans += "// neg \n";
     trans += "@SP\n"; // get (not pop) value into M
     trans += "A=M-1\n"; 
     trans += "M=-M\n"; // and negate it 
@@ -108,6 +151,7 @@ string VMTranslator::vm_eq(){
     static int count = 0;
     string label = to_string(count);
     count++;
+    trans += "// eq " + label + "\n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n";
@@ -130,6 +174,7 @@ string VMTranslator::vm_gt(){
     static int count = 0;
     string label = to_string(count);
     count++;
+    trans += "// gt " + label + "\n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n";
@@ -152,6 +197,7 @@ string VMTranslator::vm_lt(){
     static int count = 0;
     string label = to_string(count);
     count++;
+    trans += "// lt " + label + "\n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n"; 
@@ -171,6 +217,7 @@ string VMTranslator::vm_lt(){
 /** Generate Hack Assembly code for a VM and operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_and(){
     string trans = "";
+    trans += "// and\n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n";
@@ -183,6 +230,7 @@ string VMTranslator::vm_and(){
 /** Generate Hack Assembly code for a VM or operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_or(){
     string trans = "";
+    trans += "// or\n";
     trans += "@SP\n"; // pop first value into D
     trans += "AM=M-1\n";
     trans += "D=M\n"; 
@@ -195,6 +243,7 @@ string VMTranslator::vm_or(){
 /** Generate Hack Assembly code for a VM not operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_not(){
     string trans = "";
+    trans += "// note\n";
     trans += "@SP\n"; // get (not pop) value into M
     trans += "A=M-1\n"; 
     trans += "M=!M\n"; // and negate it 
