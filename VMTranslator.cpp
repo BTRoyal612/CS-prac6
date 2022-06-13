@@ -283,7 +283,7 @@ string VMTranslator::vm_or(){
 /** Generate Hack Assembly code for a VM not operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_not(){
     string trans = "";
-    trans += "// note\n";
+    trans += "// not\n";
     trans += "@SP\n"; // get (not pop) value into M
     trans += "A=M-1\n"; 
     trans += "M=!M\n"; // and negate it 
