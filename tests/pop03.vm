@@ -1,0 +1,3 @@
+// pop temp and pointer
+pop pointer 0
+pop temp 0

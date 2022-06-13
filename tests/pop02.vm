@@ -1,0 +1,5 @@
+// pop local, argument, this and that
+pop local 1
+pop argument 0
+pop this 1
+pop that 1
