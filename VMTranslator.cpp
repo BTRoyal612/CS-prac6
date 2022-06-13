@@ -97,8 +97,6 @@ string VMTranslator::vm_pop(string segment, int offset){
             trans += "M=D\n";
         } else if (segment == "argument") {
             trans += "@ARG\n";
-            trans += "D=M+D\n";
-            trans += "@ARG\n";
             trans += "D=M+D\n"; 
             trans += "@R13\n";
             trans += "M=D\n";
