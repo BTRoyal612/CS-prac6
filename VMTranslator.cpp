@@ -7,7 +7,7 @@ using namespace std;
 /** Generate Hack Assembly code for a VM push operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_push(string segment, int offset){
     string trans = "";
-    trans += "// push " + segment + str(offset) + "\n";
+    trans += "// push " + segment + to_string(offset) + "\n";
     if (segment == "constant") {
         trans += "@" + to_string(offset) + "\n"; // load index into A
         trans += "D=A\n"; // move it to D
@@ -17,8 +17,7 @@ string VMTranslator::vm_push(string segment, int offset){
         trans += "@SP\n"; // load stack pointer address into A
         trans += "M=M+1\n"; // increment stack pointer
     } else if (segment == "static") {
-        offset += 16;
-        trans += "@" + to_string(offset) + "\n";
+        trans += "@" + to_string(offset + 16) + "\n";
         trans += "D=M\n";
         trans += "@SP\n";
         trans += "A=M\n"; 
@@ -63,15 +62,15 @@ string VMTranslator::vm_push(string segment, int offset){
 /** Generate Hack Assembly code for a VM pop operation assessed in Practical Assignment 6 */
 string VMTranslator::vm_pop(string segment, int offset){  
     string trans = "";
-    trans += "// pop " + segment + str(offset) + "\n";
+    trans += "// pop " + segment + to_string(offset) + "\n";
     if (segment == "static") {
         trans += "@SP\n"; // pop value into D
         trans += "AM=M-1\n";
         trans += "D=M\n";
-        trans += "@" + str(16 + offset) + "\n"
+        trans += "@" + to_string(16 + offset) + "\n";
         trans += "M=D\n";
     } else {
-        trans += "@" + str(offset) + "\n"; // get address into R13
+        trans += "@" + to_string(offset) + "\n"; // get address into R13
         trans += "D=A\n";
         if (segment == "this") {
             trans += "@THIS\n";
@@ -93,7 +92,7 @@ string VMTranslator::vm_pop(string segment, int offset){
             trans += "D=A+D\n";
         }
         trans += "@R13\n";
-        trans += "M=D\n;"
+        trans += "M=D\n;";
         trans += "@SP\n"; // pop value into D
         trans += "AM=M-1\n";
         trans += "D=M\n";
@@ -101,7 +100,7 @@ string VMTranslator::vm_pop(string segment, int offset){
         trans += "A=M\n";
         trans += "M=D\n";
     }
-    
+
     return trans;
 }
 
