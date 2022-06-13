@@ -75,32 +75,73 @@ string VMTranslator::vm_pop(string segment, int offset){
 
         if (segment == "this") {
             trans += "@THIS\n";
-            trans += "D=M+D\n"; 
+            trans += "D=M+D\n";
+            trans += "@R13\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // pop value into D
+            trans += "AM=M-1\n";
+            trans += "D=M\n";
+            trans += "@R13\n"; // address back in A (no touchy D)
+            trans += "A=M\n";
+            trans += "M=D\n";
         } else if (segment == "that") {
             trans += "@THAT\n";
             trans += "D=M+D\n"; 
+            trans += "@R13\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // pop value into D
+            trans += "AM=M-1\n";
+            trans += "D=M\n";
+            trans += "@R13\n"; // address back in A (no touchy D)
+            trans += "A=M\n";
+            trans += "M=D\n";
         } else if (segment == "argument") {
             trans += "@ARG\n";
+            trans += "D=M+D\n";
+            trans += "@ARG\n";
             trans += "D=M+D\n"; 
+            trans += "@R13\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // pop value into D
+            trans += "AM=M-1\n";
+            trans += "D=M\n";
+            trans += "@R13\n"; // address back in A (no touchy D)
+            trans += "A=M\n";
+            trans += "M=D\n";
         } else if (segment == "local") {
             trans += "@LCL\n";
             trans += "D=M+D\n"; 
+            trans += "@R13\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // pop value into D
+            trans += "AM=M-1\n";
+            trans += "D=M\n";
+            trans += "@R13\n"; // address back in A (no touchy D)
+            trans += "A=M\n";
+            trans += "M=D\n";
         } else if (segment == "pointer") {
             trans += "@3\n";
-            trans += "D=A+D\n";
+            trans += "D=A+D\n"; 
+            trans += "@R13\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // pop value into D
+            trans += "AM=M-1\n";
+            trans += "D=M\n";
+            trans += "@R13\n"; // address back in A (no touchy D)
+            trans += "A=M\n";
+            trans += "M=D\n";
         } else if (segment == "temp") {
             trans += "@5\n";
-            trans += "D=A+D\n";
+            trans += "D=A+D\n"; 
+            trans += "@R13\n";
+            trans += "M=D\n";
+            trans += "@SP\n"; // pop value into D
+            trans += "AM=M-1\n";
+            trans += "D=M\n";
+            trans += "@R13\n"; // address back in A (no touchy D)
+            trans += "A=M\n";
+            trans += "M=D\n";
         }
-        
-        trans += "@R13\n";
-        trans += "M=D\n;";
-        trans += "@SP\n"; // pop value into D
-        trans += "AM=M-1\n";
-        trans += "D=M\n";
-        trans += "@R13\n"; // address back in A (no touchy D)
-        trans += "A=M\n";
-        trans += "M=D\n";
     }
 
     return trans;
